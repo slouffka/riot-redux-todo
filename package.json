@@ -4,9 +4,11 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "dev": "webpack-dev-server"
+    "dev": "node_modules/.bin/webpack-dev-server",
+    "json-server": "node_modules/.bin/json-server"
   },
   "dependencies": {
+    "json-server": "^0.9.4",
     "redux": "^3.6.0",
     "redux-thunk": "^2.1.0",
     "riot": "^3.0.2"
