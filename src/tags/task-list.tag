@@ -1,7 +1,7 @@
 <task-list>
   <ul>
     <li each={ task in opts.tasks }>
-      <input type="checkbox" checked={ task.isComplete } onchange={ onChange }/>
+      <input type="checkbox" checked={ task.isComplete } onchange={ onChange } />
       <span class={ task.isComplete ? 'checked' : ''}>{ task.name }</span>
       <button class="remove" type="button" onclick={ onRemove }>x</button>
     </li>
@@ -15,18 +15,23 @@
 
     li {
       list-style-type: none;
-      padding: 5px 5px 5px 0;
+      padding: 10px 5px 10px 0;
     }
 
     li input[type=checkbox] {
       margin-left: 0;
     }
 
-    li .checked {
+    li span.checked {
       text-decoration: line-through;
     }
 
     button.remove {
+      display: none;
+    }
+
+    li:hover > button.remove {
+      display: inline;
     }
   </style>
 

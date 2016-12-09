@@ -23,7 +23,6 @@ function loadTasks() {
     let request = new XMLHttpRequest()
     request.open('GET', 'http://localhost:3000/tasks', true)
     request.onload = function() {
-      console.log('request.readyState', request.readyState)
       if (request.status >= 200 && request.status < 400) {
         let data = JSON.parse(request.responseText)
         dispatch(tasksLoaded(data))
@@ -41,7 +40,7 @@ function toggleLoading(isLoading) {
   return { type: 'TOGGLE_LOADING', data: isLoading }
 }
 
-function addTask(newTask) {
+function addTask(taskName) {
   return function(dispatch, getState) {
     dispatch(toggleLoading(true))
     let request = new XMLHttpRequest()
@@ -50,17 +49,17 @@ function addTask(newTask) {
     request.onload = function() {
       if (request.status >= 200 && request.status < 400) {
         let data = JSON.parse(request.responseText)
-        dispatch(newTaskAdded(data.id, data.name))
+        dispatch(newTaskAdded(data.id, data.name, data.createdAt))
       }
       dispatch(toggleLoading(false))
     }
 
-    request.send(JSON.stringify({ name: newTask }))
+    request.send(JSON.stringify({ name: taskName, createdAt: Date.now() }))
   }
 }
 
-function newTaskAdded(id, name) {
-  return { type: 'TASK_ADDED', data: { id: id, name: name } }
+function newTaskAdded(id, name, createdAt) {
+  return { type: 'TASK_ADDED', data: { id: id, name: name, createdAt: createdAt } }
 }
 
 function toggleComplete(id, isComplete) {
@@ -87,7 +86,8 @@ function completeChanged(id, isComplete) {
     type: 'TASK_COMPLETION_CHANGED',
     data: {
       id: id,
-      isComplete: isComplete
+      isComplete: isComplete,
+      updatedAt: Date.now()
     }
   }
 }
