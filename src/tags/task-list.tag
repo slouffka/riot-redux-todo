@@ -27,11 +27,11 @@
     }
 
     button.remove {
-      display: none;
+      visibility: hidden;
     }
 
     li:hover > button.remove {
-      display: inline;
+      visibility: visible;
     }
   </style>
 
