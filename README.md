@@ -6,7 +6,7 @@ usual React application with Redux. It has reduced boilerplate and action map
 object instead of switch based reducer.
 
 This is not production-ready app. I wrote it while learning Riot and Redux.
-It's made following videos by
+It's made while following videos by
 [Andrew Van Slaars](https://www.youtube.com/channel/UC1EPLJ19SMAUpu0LOt8a4IA)
 which you can find at:
 [RiotJS and Redux](https://www.youtube.com/watch?v=Y6vpKAGT2-8)
