@@ -1,5 +1,5 @@
-Todo App with Riot.js & Redux
-=============================
+Todo App with Riot.js, Redux and Webpack
+========================================
 
 This is a sample of SPA using Riot and Redux. It's structure is similar to
 usual React application with Redux. It has reduced boilerplate and action map
@@ -12,6 +12,9 @@ which you can find at:
 [RiotJS and Redux](https://www.youtube.com/watch?v=Y6vpKAGT2-8)
 
 # Installation
+
+I'm using Yarn package manager because it's modern, fast and secure. But you could
+swap yarn command for npm and I think it will work fine. Though I didn't check it.
 
 ```
 yarn install
