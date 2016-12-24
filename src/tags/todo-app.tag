@@ -1,17 +1,27 @@
 <todo-app>
-  <h1>Riot.js, Redux and Immutable TODO</h1>
+  <div class="container">
+    <h1>Riot.js, Redux and Immutable TODO</h1>
 
-  <error-message state={ state.errorStatus } onhide={ hideErrorMessage }></error-message>
-  <task-form onnewtask={ newTask }></task-form>
-  <task-list tasks={ state.taskList } ontaskcompletionchange={ taskCompletionChange } ontaskdelete={ taskDelete }></task-list>
-  <loading-indicator isloading={ state.isLoading }></loading-indicator>
+    <error-message state={ state.errorStatus } onhide={ hideErrorMessage }></error-message>
+    <task-form onnewtask={ newTask }></task-form>
+    <task-list tasks={ state.taskList } ontaskcompletionchange={ taskCompletionChange } ontaskdelete={ taskDelete }></task-list>
+    <loading-indicator isloading={ state.isLoading }></loading-indicator>
+  </div>
 
   <style>
     todo-app {
+      width: 100%;
+      text-align: center;
+    }
+
+    .container {
       display: block;
       padding: 20px;
       border: 1px solid #555;
       box-shadow: 3px 3px 5px #555;
+      width: 800px;
+      margin: auto;
+      text-align: left;
     }
   </style>
 
