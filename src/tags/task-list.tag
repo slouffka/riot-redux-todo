@@ -7,7 +7,7 @@
     </li>
   </ul>
 
-  <style>
+  <style scoped>
     ul {
       padding-left: 0;
       margin-bottom: 0;

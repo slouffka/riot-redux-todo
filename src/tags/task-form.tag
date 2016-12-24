@@ -26,7 +26,8 @@
     onSubmit(e) {
       e.preventDefault()
 
-      if (!newTask.value.length) {
+      if (newTask.value.length <= 2) {
+        opts.onerror('Напишите текст задачи')
         return false
       }
 

@@ -17,9 +17,7 @@ function loadTasks() {
       dispatch(toggleLoading(false))
     }
 
-    setTimeout(function() {
-      request.send()
-    }, 2000)
+    request.send()
   }
 }
 
