@@ -1,74 +1,79 @@
-let defaultState = {
-  title: 'Todo App with Riot.js & Redux',
-  tasks: []
-}
+import { List, Map } from 'immutable'
+import { combineReducers } from 'redux-immutable'
+import * as types from '../constants/ActionTypes'
 
-let actionMap = {
 
-  CHANGE_TITLE: (state, action) => {
-    return Object.assign({}, state, { title: action.data })
-  },
-
-  RESET_TITLE: (state, action) => {
-    return Object.assign({}, defaultState)
-  },
-
-  TASKS_LOADED: (state, action) => {
-    return Object.assign({}, state, { tasks: action.data })
-  },
-
-  TOGGLE_LOADING: (state, action) => {
-    return Object.assign({}, state, { isLoading: action.data })
-  },
-
-  TASK_ADDED: (state, action) => {
-    return Object.assign({}, state, { tasks: state.tasks.concat(action.data) })
-  },
-
-  TASK_COMPLETION_CHANGED: (state, action) => {
-    let taskIndex = state.tasks.findIndex(function(task) {
-      return task.id === action.data.id
-    })
-
-    let newTasks = [
-      ...state.tasks.slice(0, taskIndex),
-      Object.assign({}, state.tasks[taskIndex], { isComplete: action.data.isComplete }),
-      ...state.tasks.slice(taskIndex + 1)
-    ]
-
-    return Object.assign({}, state, { tasks: newTasks })
-  },
-
-  TASK_REMOVED: (state, action) => {
-    let taskIndex = state.tasks.findIndex(function(task) {
-      return task.id === action.data.id
-    })
-
-    let newTasks = [
-      ...state.tasks.slice(0, taskIndex),
-      ...state.tasks.slice(taskIndex + 1)
-    ]
-
-    return Object.assign({}, state, { tasks: newTasks })
-  },
-
-  SHOW_ERROR: (state, action) => {
-    return Object.assign({}, state, { isError: true, errorMessage: action.data })
-  },
-
-  HIDE_ERROR: (state, action) => {
-    return Object.assign({}, state, { isError: false, errorMessage: '' })
-  }
-
-}
-
-let rootReducer = (state = defaultState, action) => {
-  // using action map instead of switch
-  if (typeof actionMap[action.type] === 'function') {
-    return actionMap[action.type](state, action)
-  } else {
-    return state
+function activeFilter(state = 'all', action) {
+  switch (action.type) {
+    case types.CHANGE_FILTER:
+      console.info(`%cFilter changed: ${action.payload.toUpperCase()}`, 'color:red; font-weight:bold;')
+      return action.payload
+    default:
+      return state
   }
 }
 
-export default rootReducer
+function taskList(state = List(), action) {
+
+  console.log('taskList action', action)
+
+  switch (action.type) {
+    case types.TASKS_LOADED:
+      return state.merge(action.payload.tasks)
+
+    case types.TASK_ADDED:
+      return state.push(Map({
+        id: action.payload.id,
+        name: action.payload.name,
+        completed: false,
+        createdAt: action.payload.createdAt
+      }))
+
+    case types.TASK_COMPLETION_CHANGED:
+      return state.map(task => {
+        if (task.get('id') === action.payload.id) {
+          return task.update('completed', v => action.payload.completed)
+        }
+        return task
+      })
+
+    case types.TASK_DELETED:
+      return state.filter(task => task.get('id') !== action.payload.id)
+
+    case types.TASKS_DELETE_ALL:
+      return state.clear()
+
+    default:
+      return state
+  }
+}
+
+function errorStatus(state = Map({ isError: false, message: '' }), action) {
+  switch (action.type) {
+    case types.SHOW_ERROR:
+      return state.merge({ isError: true, message: action.payload.message })
+
+    case types.HIDE_ERROR:
+      return state.merge({ isError: false, message: '' })
+
+    default:
+      return state
+  }
+}
+
+function isLoading(state = false, action) {
+  switch (action.type) {
+    case types.TOGGLE_LOADING:
+      return state = action.payload
+
+    default:
+      return state
+  }
+}
+
+export default combineReducers({
+  isLoading,
+  errorStatus,
+  activeFilter,
+  taskList
+})

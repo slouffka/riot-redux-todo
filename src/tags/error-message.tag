@@ -1,9 +1,13 @@
 <error-message>
-  <div show={ opts.iserror }>
-    { opts.message } <a href="#" onclick={ hideMessage }>x</a>
+  <div show={ state.isError }>
+    { state.message } <a href="#" onclick={ hideMessage }>x</a>
   </div>
 
   <script>
+    this.state = opts.state
+
+    console.log('this.state', this.state)
+
     hideMessage() {
       opts.onhide()
     }

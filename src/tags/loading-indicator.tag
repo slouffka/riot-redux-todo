@@ -1,3 +1,3 @@
 <loading-indicator>
-  <img src="loading.gif" show={ opts.loading } />
+  <img src="loading.gif" show={ opts.isLoading } />
 </loading-indicator>

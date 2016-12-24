@@ -1,21 +1,6 @@
-// Action creator is used to evade typos in action type names. If we call
-// incorrect action creator function from tag script - we will get an error.
+import * as types from '../constants/ActionTypes'
 
-function changeTitle(newTitle) {
-  return { type: 'CHANGE_TITLE', data: newTitle }
-}
 
-function resetTitle() {
-  return { type: 'RESET_TITLE' }
-}
-
-function tasksLoaded(tasks) {
-  return { type: 'TASKS_LOADED', data: tasks }
-}
-
-// This async task returns a function which is used with Redux Thunk middleware.
-//
-// TODO: Read carefully about Thunk and understand it.
 function loadTasks() {
   return function(dispatch, getState) {
     dispatch(toggleLoading(true))
@@ -24,8 +9,8 @@ function loadTasks() {
     request.open('GET', 'http://localhost:3000/tasks', true)
     request.onload = function() {
       if (request.status >= 200 && request.status < 400) {
-        let data = JSON.parse(request.responseText)
-        dispatch(tasksLoaded(data))
+        let tasks = JSON.parse(request.responseText)
+        dispatch(tasksLoaded(tasks))
       } else {
         dispatch(showError("Backend Error"))
       }
@@ -36,33 +21,58 @@ function loadTasks() {
   }
 }
 
-function toggleLoading(isLoading) {
-  return { type: 'TOGGLE_LOADING', data: isLoading }
+function tasksLoaded(tasks) {
+  return {
+    type: types.TASKS_LOADED,
+    payload: {
+      tasks
+    }
+  }
 }
 
-function addTask(taskName) {
+function toggleLoading(isLoading) {
+  return {
+    type: types.TOGGLE_LOADING,
+    payload: isLoading
+  }
+}
+
+function addTask(name) {
   return function(dispatch, getState) {
     dispatch(toggleLoading(true))
+
     let request = new XMLHttpRequest()
     request.open('POST', 'http://localhost:3000/tasks', true)
     request.setRequestHeader('Content-Type', 'application/json')
     request.onload = function() {
       if (request.status >= 200 && request.status < 400) {
-        let data = JSON.parse(request.responseText)
-        dispatch(newTaskAdded(data.id, data.name, data.createdAt))
+        let task = JSON.parse(request.responseText)
+        dispatch(newTaskAdded(task))
       }
       dispatch(toggleLoading(false))
     }
 
-    request.send(JSON.stringify({ name: taskName, createdAt: Date.now() }))
+    request.send(JSON.stringify({
+      name,
+      completed: false,
+      createdAt: Date.now()
+    }))
   }
 }
 
-function newTaskAdded(id, name, createdAt) {
-  return { type: 'TASK_ADDED', data: { id: id, name: name, createdAt: createdAt } }
+function newTaskAdded(task) {
+  return {
+    type: types.TASK_ADDED,
+    payload: {
+      id: task.id,
+      name: task.name,
+      completed: task.completed,
+      createdAt: task.createdAt
+    }
+  }
 }
 
-function toggleComplete(id, isComplete) {
+function toggleComplete(id, completed) {
   return function(dispatch, getState) {
     let request = new XMLHttpRequest()
     request.open('PATCH', `http://localhost:3000/tasks/${id}`, true)
@@ -70,29 +80,29 @@ function toggleComplete(id, isComplete) {
     request.onload = function() {
       if (request.status >= 200 && request.status < 400) {
         let data = JSON.parse(request.responseText)
-        dispatch(completeChanged(id, isComplete))
+        dispatch(completionChanged(id, completed))
       } else {
-        dispatch(completeChanged(id, !isComplete))
+        dispatch(completionChanged(id, !completed))
         dispatch(tempErrorMessage("Backend Error"))
       }
     }
 
-    request.send(JSON.stringify({ isComplete: isComplete }))
+    request.send(JSON.stringify({ completed: completed }))
   }
 }
 
-function completeChanged(id, isComplete) {
+function completionChanged(id, completed) {
   return {
-    type: 'TASK_COMPLETION_CHANGED',
-    data: {
-      id: id,
-      isComplete: isComplete,
+    type: types.TASK_COMPLETION_CHANGED,
+    payload: {
+      id,
+      completed,
       updatedAt: Date.now()
     }
   }
 }
 
-function removeTask(id) {
+function deleteTask(id) {
   return function(dispatch, getState) {
     let request = new XMLHttpRequest()
     request.open('DELETE', `http://localhost:3000/tasks/${id}`, true)
@@ -100,7 +110,7 @@ function removeTask(id) {
     request.onload = function() {
       if (request.status >= 200 && request.status < 400) {
         let data = JSON.parse(request.responseText)
-        dispatch(taskRemoved(id))
+        dispatch(taskDeleted(id))
       } else {
         dispatch(tempErrorMessage("Backend Error"))
       }
@@ -110,24 +120,26 @@ function removeTask(id) {
   }
 }
 
-function taskRemoved(id) {
+function taskDeleted(id) {
   return {
-    type: 'TASK_REMOVED',
-    data: {
-      id: id
+    type: types.TASK_DELETED,
+    payload: {
+      id
     }
   }
 }
 
 function showError(message) {
   return {
-    type: 'SHOW_ERROR',
-    data: message
+    type: types.SHOW_ERROR,
+    payload: {
+      message
+    }
   }
 }
 
 function hideError() {
-  return { type: 'HIDE_ERROR' }
+  return { type: types.HIDE_ERROR }
 }
 
 function tempErrorMessage(message) {
@@ -140,14 +152,12 @@ function tempErrorMessage(message) {
 }
 
 module.exports = {
-  changeTitle: changeTitle,
-  resetTitle: resetTitle,
   loadTasks: loadTasks,
   toggleLoading: toggleLoading,
   addTask: addTask,
   newTaskAdded: newTaskAdded,
   toggleComplete: toggleComplete,
-  removeTask: removeTask,
+  deleteTask: deleteTask,
   showError: showError,
   hideError: hideError
 }

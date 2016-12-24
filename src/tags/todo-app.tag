@@ -1,11 +1,10 @@
 <todo-app>
+  <h1>Riot.js, Redux and Immutable TODO</h1>
 
-  <h1>{ state.title }</h1>
-
-  <error-message message={ state.errorMessage } iserror={ state.isError } onhide={ hideErrorMessage }></error-message>
-  <loading-indicator loading={ state.isLoading }></loading-indicator>
+  <error-message state={ state.errorStatus } onhide={ hideErrorMessage }></error-message>
+  <loading-indicator isloading={ state.isLoading }></loading-indicator>
   <task-form onnewtask={ newTask }></task-form>
-  <task-list tasks={ state.tasks } ontaskcompletionchange={ taskCompletionChange } ontaskremove={ taskRemove }></task-list>
+  <task-list tasks={ state.taskList } ontaskcompletionchange={ taskCompletionChange } ontaskdelete={ taskDelete }></task-list>
 
   <style>
     todo-app {
@@ -20,14 +19,16 @@
     const actions = require('../actions/index')
     const store = opts.store
 
-    this.state = store.getState()
+    this.state = store.getState().toJS()
 
     this.on('mount', function() {
       store.dispatch(actions.loadTasks())
     })
 
     store.subscribe(function() {
-      this.state = store.getState()
+      // we use Immutable.JS to store and work with state
+      // to use it within component templates we need to convert to POJO
+      this.state = store.getState().toJS()
       this.update()
     }.bind(this))
 
@@ -35,12 +36,12 @@
       store.dispatch(actions.addTask(task))
     }
 
-    taskCompletionChange(id, isComplete) {
-      store.dispatch(actions.toggleComplete(id, isComplete))
+    taskCompletionChange(id, completed) {
+      store.dispatch(actions.toggleComplete(id, completed))
     }
 
-    taskRemove(id) {
-      store.dispatch(actions.removeTask(id))
+    taskDelete(id) {
+      store.dispatch(actions.deleteTask(id))
     }
 
     hideErrorMessage() {

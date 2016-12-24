@@ -1,19 +1,12 @@
-import { createStore, applyMiddleware } from 'redux'
-import thunk from 'redux-thunk'
-import rootReducer from './reducers/index'
 import riot, { mount } from 'riot'
+import store from './store'
 
-require('./tags/todo-app.tag')
-require('./tags/task-list.tag')
-require('./tags/loading-indicator.tag')
-require('./tags/task-form.tag')
-require('./tags/error-message.tag')
-
-const reduxStore = createStore(
-  rootReducer,
-  applyMiddleware(thunk)
-)
+import './tags/todo-app.tag'
+import './tags/task-list.tag'
+import './tags/loading-indicator.tag'
+import './tags/task-form.tag'
+import './tags/error-message.tag'
 
 document.addEventListener('DOMContentLoaded', () => {
-  mount('todo-app', { store: reduxStore })
+  mount('todo-app', { store: store })
 })

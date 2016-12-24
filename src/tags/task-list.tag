@@ -1,9 +1,9 @@
 <task-list>
   <ul>
     <li each={ task in opts.tasks }>
-      <input type="checkbox" checked={ task.isComplete } onchange={ onChange } />
-      <span class={ task.isComplete ? 'checked' : ''}>{ task.name }</span>
-      <button class="remove" type="button" onclick={ onRemove }>x</button>
+      <input type="checkbox" checked={ task.completed } onchange={ onChange } />
+      <span class={ task.completed ? 'checked' : ''}>{ task.name }</span>
+      <button class="delete" type="button" onclick={ onDelete }>x</button>
     </li>
   </ul>
 
@@ -26,11 +26,11 @@
       text-decoration: line-through;
     }
 
-    button.remove {
+    button.delete {
       visibility: hidden;
     }
 
-    li:hover > button.remove {
+    li:hover > button.delete {
       visibility: visible;
     }
   </style>
@@ -40,8 +40,8 @@
       opts.ontaskcompletionchange(e.item.task.id, e.target.checked)
     }
 
-    onRemove(e) {
-      opts.ontaskremove(e.item.task.id)
+    onDelete(e) {
+      opts.ontaskdelete(e.item.task.id)
     }
   </script>
 </task-list>

@@ -1,9 +1,8 @@
-Todo App with Riot.js, Redux and Webpack
-========================================
+Todo App with Riot.js, Redux and Immutable
+==========================================
 
-This is a sample of SPA using Riot and Redux. It's structure is similar to
-usual React application with Redux. It has reduced boilerplate and action map
-object instead of switch based reducer.
+This is a sample of SPA using Riot and Redux with Immutable state. It's
+structure is similar to usual React application with Redux.
 
 This is not production-ready app. I wrote it while learning Riot and Redux with
 videos by

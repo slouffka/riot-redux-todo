@@ -3,7 +3,19 @@
     {
       "name": "Welcome to Todo App. You can add new tasks.",
       "id": "1",
-      "isComplete": false
+      "completed": false
+    },
+    {
+      "name": "New task just to test everything works as expected.",
+      "createdAt": 1482554677202,
+      "id": "Bkp4pdj4g",
+      "completed": true
+    },
+    {
+      "name": "Another task to test out the new addTask action handler.",
+      "completed": true,
+      "createdAt": 1482554912369,
+      "id": "H1u7ROoEl"
     }
   ]
 }

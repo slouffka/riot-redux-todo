@@ -18,8 +18,6 @@
   <script>
     let newTask
 
-    // console.log('this.refs.newTask', this.refs.newTask)
-
     this.on('mount', function() {
       newTask = this.refs.newTask
       newTask.focus()
