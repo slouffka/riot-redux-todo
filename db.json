@@ -22,6 +22,12 @@
       "completed": false,
       "createdAt": 1482555446331,
       "id": "SJ0EeFo4e"
+    },
+    {
+      "name": "Add new task to test out loading indicator.",
+      "completed": false,
+      "createdAt": 1482558068418,
+      "id": "Sy3uqtoNx"
     }
   ]
 }

@@ -17,16 +17,16 @@ function loadTasks() {
       dispatch(toggleLoading(false))
     }
 
-    request.send()
+    setTimeout(function() {
+      request.send()
+    }, 2000)
   }
 }
 
 function tasksLoaded(tasks) {
   return {
     type: types.TASKS_LOADED,
-    payload: {
-      tasks
-    }
+    payload: tasks
   }
 }
 
@@ -63,12 +63,7 @@ function addTask(name) {
 function newTaskAdded(task) {
   return {
     type: types.TASK_ADDED,
-    payload: {
-      id: task.id,
-      name: task.name,
-      completed: task.completed,
-      createdAt: task.createdAt
-    }
+    payload: task 
   }
 }
 
