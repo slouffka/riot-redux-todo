@@ -29,7 +29,6 @@
 
     store.subscribe(function() { 
       this.state = store.getState().toJS()
-      console.log('state', this.state)
       this.update()
     }.bind(this))
 
