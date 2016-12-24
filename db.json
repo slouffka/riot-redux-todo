@@ -16,6 +16,12 @@
       "completed": true,
       "createdAt": 1482554912369,
       "id": "H1u7ROoEl"
+    },
+    {
+      "name": "Task to test out a simplified task addition.",
+      "completed": false,
+      "createdAt": 1482555446331,
+      "id": "SJ0EeFo4e"
     }
   ]
 }

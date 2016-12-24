@@ -15,19 +15,12 @@ function activeFilter(state = 'all', action) {
 
 function taskList(state = List(), action) {
 
-  console.log('taskList action', action)
-
   switch (action.type) {
     case types.TASKS_LOADED:
       return state.merge(action.payload.tasks)
 
     case types.TASK_ADDED:
-      return state.push(Map({
-        id: action.payload.id,
-        name: action.payload.name,
-        completed: false,
-        createdAt: action.payload.createdAt
-      }))
+      return state.push(Map(action.payload))
 
     case types.TASK_COMPLETION_CHANGED:
       return state.map(task => {
