@@ -140,7 +140,7 @@ function tempErrorMessage(message) {
     dispatch(showError(message))
     setTimeout(function() {
       dispatch(hideError())
-    }, 1000)
+    }, 3000)
   }
 }
 
@@ -152,5 +152,6 @@ module.exports = {
   toggleComplete: toggleComplete,
   deleteTask: deleteTask,
   showError: showError,
+  tempErrorMessage: tempErrorMessage,
   hideError: hideError
 }

@@ -1,0 +1,26 @@
+<error-message>
+  <div class="error" show={ opts.state.isError }>
+    { opts.state.message } <a href="#" onclick={ opts.onhide }>x</a>
+    <div class="clear"></div>
+  </div>
+
+  <style>
+    error-message div.error {
+      display: block;
+      margin-top: 15px;
+      padding: 10px;
+      color: #f33;
+      background: #fee;
+      border: 1px solid red;
+      border-radius: 3px;
+    }
+
+    error-message a {
+      float: right;
+    }
+
+    .clear {
+      clear: both;
+    }
+  </style>
+</error-message>

@@ -17,9 +17,9 @@ module.exports = {
         }
       },
       {
-        test: /\.tag$/,
+        test: /\.html/,
         loader: 'tag',
-        exclude: /node_modules/
+        include: path.join(__dirname, 'src', 'tags') 
       }
     ]
   }

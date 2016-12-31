@@ -2,13 +2,13 @@
   <div class="container">
     <h1>Riot.js, Redux and Immutable TODO</h1>
 
-    <error-message state={ state.errorStatus } onhide={ hideError }></error-message>
     <task-form onnewtask={ newTask } onerror={ onError }></task-form>
+    <error-message state={ state.errorStatus } onhide={ hideError }></error-message>
     <task-list tasks={ state.taskList } ontaskcompletionchange={ taskCompletionChange } ontaskdelete={ taskDelete }></task-list>
     <loading-indicator isloading={ state.isLoading }></loading-indicator>
   </div>
 
-  <style scoped>
+  <style>
     todo-app {
       width: 100%;
       text-align: center;
@@ -59,7 +59,7 @@
     }
 
     onError(message) {
-      store.dispatch(actions.showError(message))
+      store.dispatch(actions.tempErrorMessage(message))
     }
   </script>
 </todo-app>
